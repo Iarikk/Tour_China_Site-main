@@ -144,15 +144,8 @@ const Header = () => {
                   href="#" 
                   className={dropdownVisible === 'news' ? 'active' : ''}
                 >
-                  Туры <FontAwesomeIcon icon={faChevronDown} />
+                  Туры <FontAwesomeIcon/>
                 </a>
-                <div className={`dropdown-menu ${dropdownVisible === 'news' ? 'visible' : ''}`} ref={dropdownRef}>
-                  <ul>
-                    <li><a href="#">Пекин</a></li>
-                    <li><a href="#">Шанхай</a></li>
-                    <li><a href="#">Гонконг</a></li>
-                  </ul>
-                </div>
               </li>
               <li>
                 <a 
@@ -160,14 +153,8 @@ const Header = () => {
                   href="#" 
                   className={dropdownVisible === 'services' ? 'active' : ''}
                 >
-                  Услуги <FontAwesomeIcon icon={faChevronDown} />
+                  Услуги <FontAwesomeIcon/>
                 </a>
-                <div className={`dropdown-menu ${dropdownVisible === 'services' ? 'visible' : ''}`} ref={dropdownRef}>
-                  <ul>
-                    <li><a href="VLRU">Организация трансфера</a></li>
-                    <li><a href="#">Экскурсии</a></li>
-                  </ul>
-                </div>
               </li>
               <li>
                 <a href="/gallery">Галерея</a> {/* Ссылка на галерею */}

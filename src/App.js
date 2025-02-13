@@ -31,11 +31,8 @@ function App() {
             element={
               <>
                 <MainSection />
-                <AboutUs /> {/* Добавляем секцию "О нас" */}
                 <Slider />
                 <Sections />
-                <Reviews />
-                <ContactSection />
               </>
             }
           />
