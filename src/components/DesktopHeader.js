@@ -1,17 +1,13 @@
+// DesktopHeader.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import './Header.css';
-import { useNavigate } from 'react-router-dom'; // Импортируем useNavigate для навигации
+import { useNavigate } from 'react-router-dom';
 import logo from '../components/ChinaLogo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSun, faMoon, faDollarSign, faEuroSign, faYenSign, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { useMediaQuery } from 'react-responsive';
-import DesktopHeader from './DesktopHeader';
-import MobileHeader from './MobileHeader';
 
-
-const Header = () => {
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  const navigate = useNavigate(); // Хук для навигации
+const DesktopHeader = () => {
+  const navigate = useNavigate();
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [dropdownVisible, setDropdownVisible] = useState(null);
@@ -20,9 +16,9 @@ const Header = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [theme, setTheme] = useState('light');
   const [isScrolled, setIsScrolled] = useState(false); 
+
   const dropdownRef = useRef(null);
   const menuRef = useRef(null);
-  
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -77,6 +73,7 @@ const Header = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -96,11 +93,7 @@ const Header = () => {
   }, []);
 
   const toggleDropdown = (menu) => {
-    if (dropdownVisible === menu) {
-      setDropdownVisible(null);
-    } else {
-      setDropdownVisible(menu);
-    }
+    setDropdownVisible(prev => prev === menu ? null : menu);
   };
 
   const handleSearch = (event) => {
@@ -111,77 +104,63 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Обработчик клика по логотипу
   const handleLogoClick = () => {
-    navigate('/'); // Перенаправление на главную страницу
+    navigate('/');
   };
-  return isMobile ? <MobileHeader /> : <DesktopHeader />;
-  return (
-    <>
-      <header className={`header-container ${isScrolled ? 'shrink' : ''}`}>
-        <div className="header-content">
-          {/* Логотип с анимацией при клике */}
-          <img 
-            src={logo} 
-            alt="Logo" 
-            className="logo" 
-            onClick={handleLogoClick} // Обработчик клика для перехода на главную
-          />
-          <nav className="nav-menu" ref={menuRef}>
-            <ul>
-              <li>
-                <a 
-                  onClick={() => toggleDropdown('news')} 
-                  href="#" 
-                  className={dropdownVisible === 'news' ? 'active' : ''}
-                >
-                  Туры <FontAwesomeIcon/>
-                </a>
-              </li>
-              <li>
-                <a 
-                  onClick={() => toggleDropdown('services')} 
-                  href="#" 
-                  className={dropdownVisible === 'services' ? 'active' : ''}
-                >
-                  Услуги <FontAwesomeIcon/>
-                </a>
-              </li>
-              <li>
-                <a href="/gallery">Галерея</a> {/* Ссылка на галерею */}
-              </li>
-              <li><a href="#">Отзывы</a></li>
-              <li><a href="#">Блог</a></li>
-              <li><a href="#">Контакты</a></li>
-            </ul>
-          </nav>
-        </div>
 
-        {/* Контейнер с погодой и валютами */}
-        <div className="info-container right-section">
-          {/* Кнопка для переключения темы */}
-          <button className="theme-toggle" onClick={toggleTheme}>
-            <FontAwesomeIcon icon={theme === 'light' ? faSun : faMoon} />
-          </button>
-        </div>
-      </header>
-    </>
+  return (
+    <header className={`header-container ${isScrolled ? 'shrink' : ''}`}>
+      <div className="header-content">
+        <img 
+          src={logo} 
+          alt="Logo" 
+          className="logo" 
+          onClick={handleLogoClick} 
+        />
+        <nav className="nav-menu" ref={menuRef}>
+          <ul>
+            <li>
+              <a 
+                onClick={() => toggleDropdown('news')} 
+                href="#" 
+                className={dropdownVisible === 'news' ? 'active' : ''}
+              >
+                Туры <FontAwesomeIcon icon={faChevronDown} />
+              </a>
+            </li>
+            <li>
+              <a 
+                onClick={() => toggleDropdown('services')} 
+                href="#" 
+                className={dropdownVisible === 'services' ? 'active' : ''}
+              >
+                Услуги <FontAwesomeIcon icon={faChevronDown} />
+              </a>
+            </li>
+            <li>
+              <a href="/gallery">Галерея</a>
+            </li>
+            <li><a href="#">Отзывы</a></li>
+            <li><a href="#">Блог</a></li>
+            <li><a href="#">Контакты</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div className="info-container right-section">
+        <button className="theme-toggle" onClick={toggleTheme}>
+          <FontAwesomeIcon icon={theme === 'light' ? faSun : faMoon} />
+        </button>
+      </div>
+    </header>
   );
-  
-  
 };
 
-export default Header;
+export default DesktopHeader;
